@@ -179,12 +179,12 @@ export default function Home({ frontPageData }: DefaultProps) {
               <p>
                 We can change this!{" "}
                 <strong>
-                  In April, I am hoping to raise $500 to support the American
+                  In April, I am hoping to raise $1000 to support the American
                   Cancer Society by riding 300 miles on my Peloton, and I am
                   asking for your support.
                 </strong>{" "}
                 I know that it's hard time for everyone with the current
-                pandemic, but every little bit helps from $1 to $500. You can
+                pandemic, but every little bit helps from $1 to $1000. You can
                 follow the progress below and see live updates on my milage for
                 the month. You can also{" "}
                 <a href="#calendar">click the calendar</a> below to see what
@@ -196,9 +196,9 @@ export default function Home({ frontPageData }: DefaultProps) {
             <div className="mb-2 row">
               <div className="col-md-6 justify-content-center text-center">
                 <h1>${fontPage.dontations.total}</h1>
-                <p className="text-muted">Amount Raised ($500 Goal)</p>
+                <p className="text-muted">Amount Raised ($1000 Goal)</p>
                 <ProgressBarComponent
-                  total={500}
+                  total={1000}
                   current={fontPage.dontations.total}
                   size={"50px"}
                 />
