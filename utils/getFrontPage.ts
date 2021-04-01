@@ -15,8 +15,8 @@ export async function getFrontPage(): Promise<any> {
         {
           $match: {
             createdAt: {
-              $gte: new Date("2021-03-01T00:00:00.000Z"),
-              $lt: new Date("2021-04-01T00:00:00.000Z"),
+              $gte: new Date("2021-04-01T00:00:00.000Z"),
+              $lt: new Date("2021-05-01T00:00:00.000Z"),
             },
           },
         },
@@ -68,8 +68,8 @@ export async function getFrontPage(): Promise<any> {
         {
           $match: {
             createdAt: {
-              $gte: new Date("2021-03-01T00:00:00.000Z"),
-              $lt: new Date("2021-04-01T00:00:00.000Z"),
+              $gte: new Date("2021-04-01T00:00:00.000Z"),
+              $lt: new Date("2021-05-01T00:00:00.000Z"),
             },
           },
         },
