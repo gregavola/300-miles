@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import { GA_TRACKING_ID } from "../utils/gatags";
 
 export const siteTitle = `A Race For a Cure - 300 Miles for Cancer`;
 export const siteDescription = `Join Greg Avola as he races 300 miles on his Peloton to race money $1000 for the American Cancer society through the month of April 2020. Donate and Track his progress live!`;
@@ -52,6 +53,23 @@ export default function Layout({ children }) {
         <link
           href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"
           rel="stylesheet"
+        />
+
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_TRACKING_ID}', {
+                page_path: window.location.pathname,
+              });
+          `,
+          }}
         />
       </Head>
       <main>{children}</main>
