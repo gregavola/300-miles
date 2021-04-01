@@ -38,9 +38,9 @@ export default function Layout({ children }) {
         <meta property="og:image" content={"/og-fb-image.png"} />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image:width" content="600" />
-        <meta name="twitter:image:height" content="314" />
-        <meta name="twitter:image" content={"/og-tw-image.png"} />
+        <meta name="twitter:image:width" content="1600" />
+        <meta name="twitter:image:height" content="900" />
+        <meta name="twitter:image" content={"/og-twitter-image-v2.png"} />
 
         <meta property="og:url" content={"https://300miles.gregavola.com"} />
         <meta property="og:type" content="website" />
