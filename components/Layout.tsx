@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 
 export const siteTitle = `A Race For a Cure - 300 Miles for Cancer`;
-export const siteDescription = `Join Greg Avola as he races 300 miles on his Peloton to race money for the American Cancer societ through the month of April 2020. Track his progress live!`;
+export const siteDescription = `Join Greg Avola as he races 300 miles on his Peloton to race money $1000 for the American Cancer society through the month of April 2020. Donate and Track his progress live!`;
 
 export default function Layout({ children }) {
   return (
