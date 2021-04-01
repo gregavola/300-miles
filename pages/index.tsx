@@ -151,7 +151,7 @@ export default function Home({ frontPageData }: DefaultProps) {
           <div className="col-md-6 mx-auto text-center">
             <div className="pt-5 row d-flex flex-column justify-content-center pt-4">
               <div className="display-4 mb-3" style={{ letterSpacing: -1 }}>
-                Racing for a Cure
+                🚴‍♂️ Racing for a Cure
               </div>
               <h2>
                 Join me as I race to 300 miles for the month of April on the
@@ -291,7 +291,7 @@ export default function Home({ frontPageData }: DefaultProps) {
                     className="d-flex align-items-center justify-content-between"
                     key={mostRecentWorkout.workoutId}
                   >
-                    <div className="d-flex">
+                    <div className="row">
                       <div className="image">
                         <img
                           src={mostRecentWorkout.instructor.imageUrl}
@@ -356,13 +356,19 @@ export default function Home({ frontPageData }: DefaultProps) {
                         <h3>{mostRecentWorkout.workOutput}</h3>
                         <span className="text-muted ml-1">kj</span>
                       </div>
-                      <a
-                        className="btn btn-danger btn-sm text-uppercase"
-                        target="_blank"
-                        href={`https://members.onepeloton.com/members/971407f7eb744e6da652d17b34e00137/workouts/${mostRecentWorkout.workoutId}`}
-                      >
-                        View on Peloton
-                      </a>
+                      <div className="workout d-flex align-items-center justify-content-center">
+                        <h3>{mostRecentWorkout.totalMiles}</h3>
+                        <span className="text-muted ml-1">mi</span>
+                      </div>
+                      <div className="w-100 mx-auto">
+                        <a
+                          className="btn-block btn btn-danger btn-sm text-uppercase"
+                          target="_blank"
+                          href={`https://members.onepeloton.com/members/971407f7eb744e6da652d17b34e00137/workouts/${mostRecentWorkout.workoutId}`}
+                        >
+                          View on Peloton
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>

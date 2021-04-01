@@ -30,6 +30,7 @@ export interface Workout {
   startTime: string;
   className: string;
   workOutput: number;
+  totalMiles: number;
   status: string;
 }
 

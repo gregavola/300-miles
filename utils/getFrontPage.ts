@@ -132,6 +132,7 @@ export async function getFrontPage(): Promise<any> {
               : null,
             className: workout.className,
             workOutput: workout.workOutput,
+            totalMiles: workout.workoutMetrics.distance.value,
             status: workout.status,
           });
 
