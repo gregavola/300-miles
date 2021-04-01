@@ -1,10 +1,9 @@
-import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import CalendarComponent from "../components/Calendar";
 import ProgressBarComponent from "../components/ProgressBar";
 import { Modal } from "react-bootstrap";
-import { Facebook, Activity, Info, Bold, Heart } from "react-feather";
-import { FrontPage, Workout } from "../utils/types";
+import { Facebook, Activity, Heart } from "react-feather";
+import { FrontPage, Workout, WorkoutEvent } from "../utils/types";
 import { getFrontPage } from "../utils/getFrontPage";
 import { format } from "date-fns";
 import Layout from "../components/Layout";
@@ -24,9 +23,17 @@ export async function getServerSideProps(context) {
 export default function Home({ frontPageData }: DefaultProps) {
   const [fontPage, setFrontPage] = useState<FrontPage>(null);
   const [selectedWorkout, setSelectedWorkout] = useState<Workout[]>(null);
+  const [mostRecentWorkout, setMostRecentWorkout] = useState<Workout>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
     setFrontPage(frontPageData);
+
+    frontPageData.workouts.forEach((dayEvent: WorkoutEvent) => {
+      if (dayEvent.items.length > 0) {
+        setMostRecentWorkout(dayEvent.items[0]);
+        return;
+      }
+    });
   }, []);
 
   const closeModal = () => {
@@ -79,7 +86,7 @@ export default function Home({ frontPageData }: DefaultProps) {
                         >
                           {item.instructor.name}
                         </div>
-                        <p
+                        <div
                           className="text-muted"
                           style={{
                             letterSpacing: 1,
@@ -88,11 +95,33 @@ export default function Home({ frontPageData }: DefaultProps) {
                             marginBottom: 0,
                           }}
                         >
-                          {format(
-                            new Date(item.endTime),
-                            "EEEE LLL do @ h:mm aaaa"
+                          {item.endTime && (
+                            <>
+                              <div>
+                                {format(
+                                  new Date(item.endTime),
+                                  "E, LLL do @ h:mm aaaa"
+                                )}
+                              </div>
+                              <div className="badge badge-success">
+                                COMPLETE
+                              </div>
+                            </>
                           )}
-                        </p>
+
+                          {!item.endTime && (
+                            <>
+                              <div>
+                                Started At:
+                                {format(
+                                  new Date(item.startTime),
+                                  "E, LLL do @ h:mm aaaa"
+                                )}
+                              </div>
+                              <div className="badge badge-danger">LIVE</div>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
                     <div>
@@ -252,14 +281,104 @@ export default function Home({ frontPageData }: DefaultProps) {
               </div>
             </div>
             <hr />
+            {mostRecentWorkout && (
+              <>
+                <div className="col-md-12 mx-auto">
+                  <h5 className="text-uppercase font-weight-bold mb-3">
+                    Most Recent Ride
+                  </h5>
+                  <div
+                    className="d-flex align-items-center justify-content-between"
+                    key={mostRecentWorkout.workoutId}
+                  >
+                    <div className="d-flex">
+                      <div className="image">
+                        <img
+                          src={mostRecentWorkout.instructor.imageUrl}
+                          className="rounded-circle"
+                          height="50"
+                          width="50"
+                        />
+                      </div>
+                      <div className="info ml-3">
+                        <div style={{ fontSize: 16, fontWeight: "bold" }}>
+                          {mostRecentWorkout.className}
+                        </div>
+                        <div
+                          className="text-uppercase"
+                          style={{
+                            letterSpacing: 1,
+                            fontSize: 13,
+                          }}
+                        >
+                          {mostRecentWorkout.instructor.name}
+                        </div>
+                        <div
+                          className="text-muted"
+                          style={{
+                            letterSpacing: 1,
+                            fontSize: 12,
+                            marginTop: 0,
+                            marginBottom: 0,
+                          }}
+                        >
+                          {mostRecentWorkout.endTime && (
+                            <>
+                              <div>
+                                {format(
+                                  new Date(mostRecentWorkout.endTime),
+                                  "E, LLL do @ h:mm aaaa"
+                                )}
+                              </div>
+                              <div className="badge badge-success">
+                                COMPLETE
+                              </div>
+                            </>
+                          )}
+
+                          {!mostRecentWorkout.endTime && (
+                            <>
+                              <div>
+                                Started At:
+                                {format(
+                                  new Date(mostRecentWorkout.startTime),
+                                  "E, LLL do @ h:mm aaaa"
+                                )}
+                              </div>
+                              <div className="badge badge-danger">LIVE</div>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="workout d-flex align-items-center justify-content-center">
+                        <h3>{mostRecentWorkout.workOutput}</h3>
+                        <span className="text-muted ml-1">kj</span>
+                      </div>
+                      <a
+                        className="btn btn-danger btn-sm text-uppercase"
+                        target="_blank"
+                        href={`https://members.onepeloton.com/members/971407f7eb744e6da652d17b34e00137/workouts/${mostRecentWorkout.workoutId}`}
+                      >
+                        View on Peloton
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <hr />
+              </>
+            )}
             <div id="calendar" />
-            <CalendarComponent
-              events={fontPage.workouts}
-              onClick={(data: Workout[]) => {
-                setSelectedWorkout(data);
-                setIsModalOpen(true);
-              }}
-            />
+            <div className="pb-5">
+              <CalendarComponent
+                events={fontPage.workouts}
+                onClick={(data: Workout[]) => {
+                  setSelectedWorkout(data);
+                  setIsModalOpen(true);
+                }}
+              />
+            </div>
           </>
         )}
         {!fontPage && (
@@ -276,6 +395,9 @@ export default function Home({ frontPageData }: DefaultProps) {
           Made with <Heart color="red" fill="red" /> by{" "}
           <a href="https://twitter.com/gregavola">Greg Avola</a> | ©{" "}
           {new Date().getFullYear()}
+        </p>
+        <p className="text-muted text-center mt-3">
+          <small>Not Affilated with Peloton Interactive</small>
         </p>
       </div>
     </Layout>

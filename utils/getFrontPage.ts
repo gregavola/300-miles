@@ -126,8 +126,10 @@ export async function getFrontPage(): Promise<any> {
             workoutId: workout.workoutId,
             instructor: workout.instructors,
             createdAt: workout.createdAt.toISOString(),
-            endTime: workout.endTime.toISOString(),
-            startTime: workout.startTime.toISOString(),
+            endTime: workout.endTime ? workout.endTime.toISOString() : null,
+            startTime: workout.startTime
+              ? workout.startTime.toISOString()
+              : null,
             className: workout.className,
             workOutput: workout.workOutput,
             status: workout.status,

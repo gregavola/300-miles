@@ -12,7 +12,10 @@ function ProgressBarComponent({ total, current, size }: DefaultProps) {
 
   return (
     <ProgressBar
-      bgColor={"#2a9d8f"}
+      bgColor={"#28a745"}
+      labelAlignment={"outside"}
+      borderRadius={"5px"}
+      labelColor={"#000"}
       height={size}
       completed={parseFloat(percent)}
     />
