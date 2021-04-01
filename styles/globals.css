@@ -1,16 +1,66 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+main {
+  font-family: "Lato", sans-serif;
 }
 
-a {
-  color: inherit;
+.disabled {
+  color: rgb(142, 142, 142);
+}
+table tr td {
+  font-size: 20px;
+}
+
+td div a {
+  min-width: 50px;
+}
+
+.btn {
+  text-transform: "uppercase";
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  table tr td {
+    font-size: 14px;
+  }
+
+  td div a {
+    min-width: 40px;
+  }
+}
+
+td div a.workout {
+  border-radius: 50px;
+  padding: 10px;
+  cursor: pointer;
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
+calendar table.month {
+  min-height: 700px;
+}
+
+.calendar table {
+  table-layout: fixed;
+  width: 100%;
+}
+table {
+  caption-side: bottom;
+  border-collapse: collapse;
+}
+
+.hero {
+  width: 100%;
+  background-image: url("/bg-image.png");
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
+  min-height: 300px;
+}
+.footer p {
+  margin: 0px;
+}
+
+.footer {
+  padding: 20px;
+  background: #eaeaea;
 }
