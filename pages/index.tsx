@@ -155,7 +155,7 @@ export default function Home({ frontPageData }: DefaultProps) {
               </div>
               <h2>
                 Join me as I race to 300 miles for the month of April on the
-                Peloton, to raise donations for the American Cancel Sociey.
+                Peloton, to raise donations for the American Cancer Society.
               </h2>
             </div>
             <div className="row pb-5 pt-5 justify-content-center">
