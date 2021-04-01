@@ -234,7 +234,10 @@ export default function Home({ frontPageData }: DefaultProps) {
                   current={fontPage.metrics.totalMiles}
                   size={"50px"}
                 />
-                <a href="#" className="d-block mt-3 btn btn-lg btn-danger">
+                <a
+                  href="https://members.onepeloton.com/members/gregavola/overview"
+                  className="d-block mt-3 btn btn-lg btn-danger"
+                >
                   Follow Me On Peloton
                 </a>
                 <p className="text-muted mt-2">
