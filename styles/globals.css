@@ -9,6 +9,10 @@ table tr td {
   font-size: 20px;
 }
 
+.border-5 {
+  border: 3px solid #fff !important;
+}
+
 td div a {
   min-width: 50px;
 }

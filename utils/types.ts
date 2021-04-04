@@ -21,6 +21,20 @@ export interface CampaignMetrics {
   totalCal?: number;
   lastUpdated?: string;
 }
+export interface Metric {
+  value: number;
+  display_name: string;
+  display_unit: string;
+}
+
+export interface GraphMetrics {
+  value: number;
+  display_name: string;
+  display_unit: string;
+  max_value: number;
+  values: Array<number>;
+  average_value: number;
+}
 
 export interface Workout {
   workoutId: string;
@@ -31,6 +45,12 @@ export interface Workout {
   className: string;
   workOutput: number;
   totalMiles: number;
+  metrics?: GraphMetrics[];
+  workoutMetrics?: {
+    totalOutput: Metric;
+    distance: Metric;
+    calories: Metric;
+  };
   status: string;
 }
 
