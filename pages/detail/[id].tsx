@@ -36,7 +36,11 @@ export async function getServerSideProps(context) {
 export default function Detail({ workout, totalMiles }: DefaultProps) {
   return (
     <Layout>
-      <div className="p-2 bg-dark text-light" style={{ maxWidth: 1200 }}>
+      <div
+        id="workout-share"
+        className="p-2 bg-dark text-light"
+        style={{ maxWidth: 1200 }}
+      >
         <div className="justify-content-center align-items-center pt-2 pt-3 d-flex justify-content-between">
           <div className="title-block d-flex align-items-center">
             <div className="font-weight-bold text-center mr-3 ml-3 border-white pr-3 pl-3 border-5">
