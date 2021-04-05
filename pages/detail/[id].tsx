@@ -39,7 +39,7 @@ export default function Detail({ workout, totalMiles }: DefaultProps) {
       <div
         id="workout-share"
         className="p-2 bg-dark text-light"
-        style={{ maxWidth: 1200 }}
+        style={{ width: 1200 }}
       >
         <div className="justify-content-center align-items-center pt-2 pt-3 d-flex justify-content-between">
           <div className="title-block d-flex align-items-center">
