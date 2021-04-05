@@ -1,6 +1,7 @@
 export interface FrontPage {
   workouts?: WorkoutEvent[];
   metrics?: CampaignMetrics;
+  mostRecentWorkouts: Workout[];
   dontations?: DonationMetrics;
 }
 
