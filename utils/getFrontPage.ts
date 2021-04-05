@@ -2,6 +2,8 @@
 import { addDays, parseISO, format } from "date-fns";
 import connectToDatabase from "./db";
 import { FrontPage } from "./types";
+import startOfDay from "date-fns/startOfDay";
+import endOfDay from "date-fns/endOfDay";
 
 export async function getFrontPage(): Promise<any> {
   return new Promise<any>(async (resolve, reject) => {
@@ -55,12 +57,71 @@ export async function getFrontPage(): Promise<any> {
         },
       ]);
 
+      let mostRecentActivity = null;
+
+      const fontPage: FrontPage = {
+        metrics: {
+          totalMiles: 0,
+          lastUpdated: new Date().toISOString(),
+        },
+        mostRecentWorkouts: [],
+        dontations: {},
+        workouts: [],
+      };
+
       const countWorkouts = await collection.countDocuments({
         createdAt: {
           $gte: new Date("2021-04-01T00:00:00.000Z"),
           $lt: new Date("2021-05-01T00:00:00.000Z"),
         },
       });
+
+      const lastWorkoutDate = await collection
+        .find({
+          createdAt: {
+            $gte: new Date("2021-04-01T00:00:00.000Z"),
+            $lt: new Date("2021-05-01T00:00:00.000Z"),
+          },
+        })
+        .sort({
+          createdAt: -1,
+        })
+        .limit(1);
+
+      if (lastWorkoutDate) {
+        for await (const allValues of lastWorkoutDate) {
+          mostRecentActivity = await collection
+            .find({
+              createdAt: {
+                $gte: startOfDay(allValues.createdAt),
+                $lte: endOfDay(allValues.createdAt),
+              },
+            })
+            .sort({
+              createdAt: -1,
+            });
+        }
+
+        if (mostRecentActivity) {
+          for await (const recentWorkout of mostRecentActivity) {
+            fontPage.mostRecentWorkouts.push({
+              workoutId: recentWorkout.workoutId,
+              instructor: recentWorkout.instructors,
+              createdAt: recentWorkout.createdAt.toISOString(),
+              endTime: recentWorkout.endTime
+                ? recentWorkout.endTime.toISOString()
+                : null,
+              startTime: recentWorkout.startTime
+                ? recentWorkout.startTime.toISOString()
+                : null,
+              className: recentWorkout.className,
+              workOutput: recentWorkout.workOutput,
+              totalMiles: recentWorkout.workoutMetrics.distance.value,
+              status: recentWorkout.status,
+            });
+          }
+        }
+      }
 
       const donationData = await collectionDonations.findOne({ id: 1 });
 
@@ -81,15 +142,6 @@ export async function getFrontPage(): Promise<any> {
           },
         },
       ]);
-
-      const fontPage: FrontPage = {
-        metrics: {
-          totalMiles: 0,
-          lastUpdated: new Date().toISOString(),
-        },
-        dontations: {},
-        workouts: [],
-      };
 
       fontPage.metrics.totalWorkouts = countWorkouts;
 

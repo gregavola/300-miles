@@ -7,8 +7,6 @@ export async function getTotalMiles(lastDate: string): Promise<any> {
 
       const collection = await db.collection("workouts");
 
-      console.log(lastDate);
-
       const totalMiles = await collection.aggregate([
         {
           $match: {

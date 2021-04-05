@@ -23,17 +23,11 @@ export async function getServerSideProps(context) {
 export default function Home({ frontPageData }: DefaultProps) {
   const [fontPage, setFrontPage] = useState<FrontPage>(null);
   const [selectedWorkout, setSelectedWorkout] = useState<Workout[]>(null);
-  const [mostRecentWorkout, setMostRecentWorkout] = useState<Workout>(null);
+  const [mostRecentWorkouts, setMostRecentWorkouts] = useState<Workout[]>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
     setFrontPage(frontPageData);
-
-    frontPageData.workouts.forEach((dayEvent: WorkoutEvent) => {
-      if (dayEvent.items.length > 0) {
-        setMostRecentWorkout(dayEvent.items[0]);
-        return;
-      }
-    });
+    setMostRecentWorkouts(frontPageData.mostRecentWorkouts);
   }, []);
 
   const closeModal = () => {
@@ -281,98 +275,106 @@ export default function Home({ frontPageData }: DefaultProps) {
               </div>
             </div>
             <hr />
-            {mostRecentWorkout && (
+            {mostRecentWorkouts && (
               <>
                 <div className="col-md-12 mx-auto">
                   <h5 className="text-uppercase font-weight-bold mb-3">
                     Most Recent Ride
                   </h5>
-                  <div
-                    className="d-flex align-items-center justify-content-between"
-                    key={mostRecentWorkout.workoutId}
-                  >
-                    <div className="row">
-                      <div className="image">
-                        <img
-                          src={mostRecentWorkout.instructor.imageUrl}
-                          className="rounded-circle"
-                          height="50"
-                          width="50"
-                        />
-                      </div>
-                      <div className="info ml-3">
-                        <div style={{ fontSize: 16, fontWeight: "bold" }}>
-                          {mostRecentWorkout.className}
-                        </div>
+                  {mostRecentWorkouts.map((mostRecentWorkout: Workout) => {
+                    return (
+                      <>
                         <div
-                          className="text-uppercase"
-                          style={{
-                            letterSpacing: 1,
-                            fontSize: 13,
-                          }}
+                          className="d-flex align-items-center justify-content-between"
+                          key={`recent-${mostRecentWorkout.workoutId}`}
                         >
-                          {mostRecentWorkout.instructor.name}
-                        </div>
-                        <div
-                          className="text-muted"
-                          style={{
-                            letterSpacing: 1,
-                            fontSize: 12,
-                            marginTop: 0,
-                            marginBottom: 0,
-                          }}
-                        >
-                          {mostRecentWorkout.endTime && (
-                            <>
-                              <div>
-                                {format(
-                                  new Date(mostRecentWorkout.endTime),
-                                  "E, LLL do @ h:mm aaaa"
+                          <div className="row">
+                            <div className="image">
+                              <img
+                                src={mostRecentWorkout.instructor.imageUrl}
+                                className="rounded-circle"
+                                height="50"
+                                width="50"
+                              />
+                            </div>
+                            <div className="info ml-3">
+                              <div style={{ fontSize: 16, fontWeight: "bold" }}>
+                                {mostRecentWorkout.className}
+                              </div>
+                              <div
+                                className="text-uppercase"
+                                style={{
+                                  letterSpacing: 1,
+                                  fontSize: 13,
+                                }}
+                              >
+                                {mostRecentWorkout.instructor.name}
+                              </div>
+                              <div
+                                className="text-muted"
+                                style={{
+                                  letterSpacing: 1,
+                                  fontSize: 12,
+                                  marginTop: 0,
+                                  marginBottom: 0,
+                                }}
+                              >
+                                {mostRecentWorkout.endTime && (
+                                  <>
+                                    <div>
+                                      {format(
+                                        new Date(mostRecentWorkout.endTime),
+                                        "E, LLL do @ h:mm aaaa"
+                                      )}
+                                    </div>
+                                    <div className="badge badge-success">
+                                      COMPLETE
+                                    </div>
+                                  </>
                                 )}
-                              </div>
-                              <div className="badge badge-success">
-                                COMPLETE
-                              </div>
-                            </>
-                          )}
 
-                          {!mostRecentWorkout.endTime && (
-                            <>
-                              <div>
-                                Started At:
-                                {format(
-                                  new Date(mostRecentWorkout.startTime),
-                                  "E, LLL do @ h:mm aaaa"
+                                {!mostRecentWorkout.endTime && (
+                                  <>
+                                    <div>
+                                      Started At:
+                                      {format(
+                                        new Date(mostRecentWorkout.startTime),
+                                        "E, LLL do @ h:mm aaaa"
+                                      )}
+                                    </div>
+                                    <div className="badge badge-danger">
+                                      LIVE
+                                    </div>
+                                  </>
                                 )}
                               </div>
-                              <div className="badge badge-danger">LIVE</div>
-                            </>
-                          )}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="workout d-flex align-items-center justify-content-center">
+                              <h3>{mostRecentWorkout.workOutput}</h3>
+                              <span className="text-muted ml-1">kj</span>
+                            </div>
+                            <div className="workout d-flex align-items-center justify-content-center">
+                              <h3>{mostRecentWorkout.totalMiles}</h3>
+                              <span className="text-muted ml-1">mi</span>
+                            </div>
+                            <div className="w-100 mx-auto">
+                              <a
+                                className="btn-block btn btn-danger btn-sm text-uppercase"
+                                target="_blank"
+                                href={`https://members.onepeloton.com/members/971407f7eb744e6da652d17b34e00137/workouts/${mostRecentWorkout.workoutId}`}
+                              >
+                                View on Peloton
+                              </a>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="workout d-flex align-items-center justify-content-center">
-                        <h3>{mostRecentWorkout.workOutput}</h3>
-                        <span className="text-muted ml-1">kj</span>
-                      </div>
-                      <div className="workout d-flex align-items-center justify-content-center">
-                        <h3>{mostRecentWorkout.totalMiles}</h3>
-                        <span className="text-muted ml-1">mi</span>
-                      </div>
-                      <div className="w-100 mx-auto">
-                        <a
-                          className="btn-block btn btn-danger btn-sm text-uppercase"
-                          target="_blank"
-                          href={`https://members.onepeloton.com/members/971407f7eb744e6da652d17b34e00137/workouts/${mostRecentWorkout.workoutId}`}
-                        >
-                          View on Peloton
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+                        <hr />
+                      </>
+                    );
+                  })}
                 </div>
-                <hr />
               </>
             )}
             <div id="calendar" />
