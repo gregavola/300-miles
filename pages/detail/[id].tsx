@@ -43,11 +43,14 @@ export default function Detail({ workout, totalMiles }: DefaultProps) {
       >
         <div className="justify-content-center align-items-center pt-2 pt-3 d-flex justify-content-between">
           <div className="title-block d-flex align-items-center">
-            <div className="font-weight-bold text-center mr-3 ml-3 border-white pr-3 pl-3 border-5">
-              <div className="mb-0 text-uppercase" style={{ fontSize: 18 }}>
+            <div className="bg-light font-weight-bold text-center mr-3 ml-3 border-white pr-3 pl-3 mr-2">
+              <div
+                className="mb-0 mt-1 text-uppercase text-dark"
+                style={{ fontSize: 18 }}
+              >
                 {format(new Date(workout.endTime), "MMM")}
               </div>
-              <div style={{ fontSize: 40 }}>
+              <div style={{ fontSize: 30 }} className="text-dark">
                 {format(new Date(workout.endTime), "d")}
               </div>
             </div>
@@ -73,7 +76,7 @@ export default function Detail({ workout, totalMiles }: DefaultProps) {
         </div>
         <div className="container mb-4 mt-4">
           <h3 className="mb-0">
-            Progress <small>({totalMiles}m / 300m)</small>
+            Progress <small>({totalMiles.toFixed(2)}m / 300m)</small>
           </h3>
 
           <div className="mt-3">
@@ -93,24 +96,27 @@ export default function Detail({ workout, totalMiles }: DefaultProps) {
             {Object.keys(workout.workoutMetrics).map((key) => {
               return (
                 <div className="mb-5">
-                  <div className="display-4 font-weight-bold">
-                    {workout.workoutMetrics[key].value}
+                  <div className="d-flex align-items-baseline">
+                    <h1 className="font-weight-bold">
+                      {workout.workoutMetrics[key].value}
+                    </h1>
+                    <div style={{ fontSize: 25 }}>
+                      {workout.workoutMetrics[key].display_unit}
+                    </div>
                   </div>
-                  <h2>{workout.workoutMetrics[key].display_name}</h2>
+                  <h4>{workout.workoutMetrics[key].display_name}</h4>
                 </div>
               );
             })}
-
+            <hr className="mb-5" style={{ borderTop: "1px solid #808080" }} />
             {workout.metrics.map((item: GraphMetrics) => {
               return (
                 <div className="mb-5">
                   <div className="d-flex align-items-baseline">
-                    <div className="display-4 font-weight-bold">
-                      {item.average_value}
-                    </div>
+                    <h1 className="font-weight-bold">{item.average_value}</h1>
                     <div style={{ fontSize: 25 }}>{item.display_unit}</div>
                   </div>
-                  <h2>Avg {item.display_name}</h2>
+                  <h4>Avg {item.display_name}</h4>
                 </div>
               );
             })}

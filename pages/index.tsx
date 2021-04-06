@@ -250,7 +250,7 @@ export default function Home({ frontPageData }: DefaultProps) {
                 </p>
               </div>
               <div className="col-md-6 justify-content-center text-center">
-                <h1>{fontPage.metrics.totalMiles}</h1>
+                <h1>{fontPage.metrics.totalMiles.toFixed(2)}</h1>
                 <p className="text-muted">Total Miles (300mi Goal)</p>
                 <ProgressBarComponent
                   total={400}
