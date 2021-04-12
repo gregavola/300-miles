@@ -253,7 +253,7 @@ export default function Home({ frontPageData }: DefaultProps) {
                 <h1>{fontPage.metrics.totalMiles.toFixed(2)}</h1>
                 <p className="text-muted">Total Miles (300mi Goal)</p>
                 <ProgressBarComponent
-                  total={400}
+                  total={300}
                   current={fontPage.metrics.totalMiles}
                   size={"50px"}
                 />
