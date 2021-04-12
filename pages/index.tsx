@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import CalendarComponent from "../components/Calendar";
 import ProgressBarComponent from "../components/ProgressBar";
 import { Modal } from "react-bootstrap";
@@ -132,7 +133,15 @@ export default function Home({ frontPageData }: DefaultProps) {
                         target="_blank"
                         href={`https://members.onepeloton.com/members/971407f7eb744e6da652d17b34e00137/workouts/${item.workoutId}`}
                       >
-                        View on Peloton
+                        <div className="d-flex align-items-center">
+                          <img
+                            src="/pelo-icon.png"
+                            height="20"
+                            width="20 c"
+                            className="mr-1"
+                          />
+                          Details
+                        </div>
                       </a>
                     </div>
                   </div>
@@ -265,7 +274,15 @@ export default function Home({ frontPageData }: DefaultProps) {
                   href="https://members.onepeloton.com/members/gregavola/overview"
                   className="d-block mt-3 btn btn-lg btn-danger"
                 >
-                  Follow Me On Peloton
+                  <div className="d-flex align-items-center justify-content-center">
+                    <img
+                      src="/pelo-icon.png"
+                      height="30"
+                      width="30"
+                      className="mr-1"
+                    />
+                    <span>Follow Me On Peloton</span>
+                  </div>
                 </a>
                 <p className="text-muted mt-2">
                   <small className="d-block mt-1">
@@ -365,11 +382,19 @@ export default function Home({ frontPageData }: DefaultProps) {
                             </div>
                             <div className="w-100 mx-auto">
                               <a
-                                className="btn-block btn btn-danger btn-sm text-uppercase"
+                                className="btn btn-danger btn-sm text-uppercase"
                                 target="_blank"
                                 href={`https://members.onepeloton.com/members/971407f7eb744e6da652d17b34e00137/workouts/${mostRecentWorkout.workoutId}`}
                               >
-                                View on Peloton
+                                <div className="d-flex align-items-center">
+                                  <img
+                                    src="/pelo-icon.png"
+                                    height="20"
+                                    width="20 c"
+                                    className="mr-1"
+                                  />
+                                  Details
+                                </div>
                               </a>
                             </div>
                           </div>
