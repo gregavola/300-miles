@@ -95,7 +95,7 @@ export default function Detail({ workout, totalMiles }: DefaultProps) {
           <div className="col-md-3">
             {Object.keys(workout.workoutMetrics).map((key) => {
               return (
-                <div className="mb-5">
+                <div className="mb-5" key={`${key}-summary-metric`}>
                   <div className="d-flex align-items-baseline">
                     <h1 className="font-weight-bold">
                       {workout.workoutMetrics[key].value}
@@ -109,9 +109,9 @@ export default function Detail({ workout, totalMiles }: DefaultProps) {
               );
             })}
             <hr className="mb-5" style={{ borderTop: "1px solid #808080" }} />
-            {workout.metrics.map((item: GraphMetrics) => {
+            {workout.metrics.map((item: GraphMetrics, num: number) => {
               return (
-                <div className="mb-5">
+                <div className="mb-5" key={`${num}-graphmetric-detail`}>
                   <div className="d-flex align-items-baseline">
                     <h1 className="font-weight-bold">{item.average_value}</h1>
                     <div style={{ fontSize: 25 }}>{item.display_unit}</div>
@@ -122,14 +122,14 @@ export default function Detail({ workout, totalMiles }: DefaultProps) {
             })}
           </div>
           <div className="col-md-9">
-            {workout.metrics.map((item: GraphMetrics) => {
+            {workout.metrics.map((item: GraphMetrics, num: number) => {
               const rangeTicket = item.values.length / 4500;
               const setValues = item.values.map((tick, num) => {
                 return { v: tick, x: rangeTicket * num };
               });
 
               return (
-                <>
+                <div key={`${num}-graph-metric`}>
                   <div className="d-flex justify-content-between">
                     <h5>{item.display_name}</h5>
                     <div className="info d-flex">
@@ -158,7 +158,7 @@ export default function Detail({ workout, totalMiles }: DefaultProps) {
                       isAnimationActive={false}
                     />
                   </LineChart>
-                </>
+                </div>
               );
             })}
           </div>

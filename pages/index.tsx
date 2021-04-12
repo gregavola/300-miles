@@ -67,7 +67,7 @@ export default function Home({ frontPageData }: DefaultProps) {
                           width="50"
                         />
                       </div>
-                      <div className="info ml-3">
+                      <div className="info ml-lg-3">
                         <div style={{ fontSize: 16, fontWeight: "bold" }}>
                           {item.className}
                         </div>
@@ -122,6 +122,10 @@ export default function Home({ frontPageData }: DefaultProps) {
                       <div className="workout d-flex align-items-center justify-content-center">
                         <h3>{item.workOutput}</h3>
                         <span className="text-muted ml-1">kj</span>
+                      </div>
+                      <div className="workout d-flex align-items-center justify-content-center">
+                        <h3>{item.totalMiles}</h3>
+                        <span className="text-muted ml-1">mi</span>
                       </div>
                       <a
                         className="btn btn-danger btn-sm text-uppercase"
@@ -297,7 +301,7 @@ export default function Home({ frontPageData }: DefaultProps) {
                                 width="50"
                               />
                             </div>
-                            <div className="info ml-3">
+                            <div className="info ml-lg-3">
                               <div style={{ fontSize: 16, fontWeight: "bold" }}>
                                 {mostRecentWorkout.className}
                               </div>
