@@ -3,6 +3,22 @@ export interface FrontPage {
   metrics?: CampaignMetrics;
   mostRecentWorkouts: Workout[];
   dontations?: DonationMetrics;
+  fullDates: ProgressGraph[];
+  tracking: TrackingMeta;
+}
+
+export interface TrackingMeta {
+  averagePerDay?: number;
+  percentageToTrack?: number;
+  expectedTotal?: number;
+  daysLeft?: number;
+}
+
+export interface ProgressGraph {
+  date: string;
+  dateFormat: string;
+  count: number;
+  actual?: number;
 }
 
 export interface WorkoutEvent {

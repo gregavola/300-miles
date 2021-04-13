@@ -1,21 +1,10 @@
 import { getWorkout } from "../../utils/getWorkout";
 import { GraphMetrics, Workout } from "../../utils/types";
-import Image from "next/image";
 import format from "date-fns/format";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
 import { getTotalMiles } from "../../utils/getTotalMiles";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Layout from "../../components/Layout";
-import next from "next";
 
 export interface DefaultProps {
   workout: Workout;

@@ -1,9 +1,11 @@
 // Import Dependencies
 import { addDays, parseISO, format } from "date-fns";
 import connectToDatabase from "./db";
-import { FrontPage } from "./types";
+import { FrontPage, ProgressGraph } from "./types";
 import startOfDay from "date-fns/startOfDay";
 import endOfDay from "date-fns/endOfDay";
+import getDaysInMonth from "date-fns/getDaysInMonth";
+import startOfMonth from "date-fns/startOfMonth";
 
 export async function getFrontPage(): Promise<any> {
   return new Promise<any>(async (resolve, reject) => {
@@ -12,6 +14,21 @@ export async function getFrontPage(): Promise<any> {
 
       const collection = await db.collection("workouts");
       const collectionDonations = await db.collection("donation");
+
+      const daysinMonth = getDaysInMonth(new Date());
+      const startDateOfOMonth = startOfMonth(new Date());
+
+      const fullDates = [];
+
+      const totalMilesFull = 300 / daysinMonth;
+
+      for (let day = 0; day < daysinMonth; day++) {
+        fullDates.push({
+          date: format(addDays(startDateOfOMonth, day), "yyyy-MM-dd"),
+          dateFormat: format(addDays(startDateOfOMonth, day), "MM/dd"),
+          count: totalMilesFull * (day + 1),
+        });
+      }
 
       const cursor = await collection.aggregate([
         {
@@ -66,7 +83,9 @@ export async function getFrontPage(): Promise<any> {
         },
         mostRecentWorkouts: [],
         dontations: {},
+        tracking: {},
         workouts: [],
+        fullDates,
       };
 
       const countWorkouts = await collection.countDocuments({
@@ -155,6 +174,8 @@ export async function getFrontPage(): Promise<any> {
         lastUpdated: donationData.lastUpdated.toISOString(),
       };
 
+      let totalMilesScale = 0;
+
       for await (const doc of cursor) {
         const date = doc.createdAt;
 
@@ -188,11 +209,52 @@ export async function getFrontPage(): Promise<any> {
             status: workout.status,
           });
 
-          fontPage.metrics.lastUpdated = workout.startTime.toISOString();
+          totalMilesScale += workout.workoutMetrics.distance.value;
+
+          fontPage.metrics.lastUpdated = workout.endTime
+            ? workout.endTime.toISOString()
+            : workout.startTime.toISOString();
+        }
+
+        const index = fontPage.fullDates.findIndex(
+          (x) => x.date === workoutItem.date
+        );
+
+        if (index !== -1) {
+          fontPage.fullDates[index].actual = parseFloat(
+            totalMilesScale.toFixed(2)
+          );
         }
 
         fontPage.workouts.push(workoutItem);
       }
+
+      let daysCompleted = 0;
+
+      fontPage.fullDates.forEach((dayData: ProgressGraph) => {
+        if (dayData.actual) {
+          fontPage.tracking.percentageToTrack = parseFloat(
+            ((dayData.actual / dayData.count) * 100).toFixed(2)
+          );
+          daysCompleted++;
+        }
+      });
+
+      let daysLeft = daysinMonth - daysCompleted;
+
+      fontPage.tracking.averagePerDay = parseFloat(
+        (fontPage.metrics.totalMiles / daysCompleted).toFixed(2)
+      );
+
+      fontPage.tracking.averagePerDay = parseFloat(
+        (fontPage.metrics.totalMiles / daysCompleted).toFixed(2)
+      );
+
+      fontPage.tracking.daysLeft = daysLeft;
+
+      fontPage.tracking.expectedTotal =
+        fontPage.metrics.totalMiles +
+        daysLeft * fontPage.tracking.averagePerDay;
 
       resolve(fontPage);
     } catch (exc) {

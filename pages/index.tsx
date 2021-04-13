@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 import CalendarComponent from "../components/Calendar";
 import ProgressBarComponent from "../components/ProgressBar";
 import { Modal } from "react-bootstrap";
@@ -54,11 +63,8 @@ export default function Home({ frontPageData }: DefaultProps) {
           <Modal.Body>
             {selectedWorkout.map((item: Workout) => {
               return (
-                <>
-                  <div
-                    className="d-flex align-items-center justify-content-between"
-                    key={item.workoutId}
-                  >
+                <div key={item.workoutId}>
+                  <div className="d-flex align-items-center justify-content-between">
                     <div className="d-flex">
                       <div className="image">
                         <img
@@ -98,7 +104,10 @@ export default function Home({ frontPageData }: DefaultProps) {
                                   "E, LLL do @ h:mm aaaa"
                                 )}
                               </div>
-                              <div className="badge badge-success">
+                              <div
+                                style={{ fontSize: 13 }}
+                                className="mt-2 badge badge-success"
+                              >
                                 COMPLETE
                               </div>
                             </>
@@ -113,7 +122,12 @@ export default function Home({ frontPageData }: DefaultProps) {
                                   "E, LLL do @ h:mm aaaa"
                                 )}
                               </div>
-                              <div className="badge badge-danger">LIVE</div>
+                              <div
+                                style={{ fontSize: 13 }}
+                                className="mt-2 badge badge-danger"
+                              >
+                                LIVE
+                              </div>
                             </>
                           )}
                         </div>
@@ -146,7 +160,7 @@ export default function Home({ frontPageData }: DefaultProps) {
                     </div>
                   </div>
                   <hr />
-                </>
+                </div>
               );
             })}
           </Modal.Body>
@@ -296,6 +310,86 @@ export default function Home({ frontPageData }: DefaultProps) {
               </div>
             </div>
             <hr />
+            <div className="col-md-12 mx-auto">
+              <h5 className="text-uppercase font-weight-bold mb-3">
+                Mile Tracking
+              </h5>
+              <div style={{ height: 300, width: "100%" }}>
+                <ResponsiveContainer>
+                  <LineChart width={750} height={200} data={fontPage.fullDates}>
+                    <XAxis dataKey="dateFormat" />
+
+                    <YAxis />
+                    <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+                    <Tooltip itemStyle={{ color: "#00" }} />
+                    <Legend />
+                    <Line
+                      name="Current"
+                      type="monotone"
+                      dataKey="actual"
+                      stroke="#28a745"
+                    />
+                    <Line
+                      name="Average"
+                      type="monotone"
+                      dataKey="count"
+                      stroke="#007bff"
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+
+              <div className="row justify-content-center mt-3">
+                <div className="col-md-3 text-center">
+                  <div className="mb-2">
+                    <h5>Percent of Goal</h5>
+                    <div className="workout d-flex align-items-center justify-content-center">
+                      <h3
+                        style={{
+                          fontSize: "1.75rem",
+                          marginBottom: 0,
+                          fontWeight: "bold",
+                        }}
+                        className={
+                          fontPage.tracking.percentageToTrack > 100
+                            ? "text-success"
+                            : "text-warning"
+                        }
+                      >
+                        {fontPage.tracking.percentageToTrack}%
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-3 text-center">
+                  <div>
+                    <h5>Days Left</h5>
+                    <div className="workout d-flex align-items-center justify-content-center">
+                      <h3>{fontPage.tracking.daysLeft}</h3>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-3 text-center">
+                  <div className="mb-2">
+                    <h5>Avg Miles Per Day</h5>
+                    <div className="workout d-flex align-items-center justify-content-center">
+                      <h3>{fontPage.tracking.averagePerDay}</h3>
+                      <span className="text-muted ml-1">mi</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-3 text-center">
+                  <div className="mb-2">
+                    <h5>Expected Total</h5>
+                    <div className="workout d-flex align-items-center justify-content-center">
+                      <h3>{fontPage.tracking.expectedTotal}</h3>
+                      <span className="text-muted ml-1">mi</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr />
             {mostRecentWorkouts && (
               <>
                 <div className="col-md-12 mx-auto">
@@ -304,12 +398,9 @@ export default function Home({ frontPageData }: DefaultProps) {
                   </h5>
                   {mostRecentWorkouts.map((mostRecentWorkout: Workout) => {
                     return (
-                      <>
-                        <div
-                          className="d-flex align-items-center justify-content-between"
-                          key={`recent-${mostRecentWorkout.workoutId}`}
-                        >
-                          <div className="row">
+                      <div key={`recent-${mostRecentWorkout.workoutId}`}>
+                        <div className="d-flex align-items-center justify-content-between">
+                          <div className="d-flex">
                             <div className="image">
                               <img
                                 src={mostRecentWorkout.instructor.imageUrl}
@@ -348,7 +439,10 @@ export default function Home({ frontPageData }: DefaultProps) {
                                         "E, LLL do @ h:mm aaaa"
                                       )}
                                     </div>
-                                    <div className="badge badge-success">
+                                    <div
+                                      style={{ fontSize: 13 }}
+                                      className="mt-2 badge badge-success"
+                                    >
                                       COMPLETE
                                     </div>
                                   </>
@@ -363,7 +457,10 @@ export default function Home({ frontPageData }: DefaultProps) {
                                         "E, LLL do @ h:mm aaaa"
                                       )}
                                     </div>
-                                    <div className="badge badge-danger">
+                                    <div
+                                      style={{ fontSize: 13 }}
+                                      className="mt-2 badge badge-danger"
+                                    >
                                       LIVE
                                     </div>
                                   </>
@@ -400,7 +497,7 @@ export default function Home({ frontPageData }: DefaultProps) {
                           </div>
                         </div>
                         <hr />
-                      </>
+                      </div>
                     );
                   })}
                 </div>

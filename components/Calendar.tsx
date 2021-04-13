@@ -26,8 +26,6 @@ function CalendarComponent({ events, onClick }: DefaultProps) {
   const renderHeader = () => {
     const dateFormat = "MMMM yyyy";
 
-    console.log("render header");
-
     return (
       <div className="text-center mb-3">
         <h2>{format(currentMonth, dateFormat)}</h2>
