@@ -109,6 +109,10 @@ export async function getFrontPage(): Promise<any> {
 
       if (lastWorkoutDate) {
         for await (const allValues of lastWorkoutDate) {
+          console.log(allValues.createdAt);
+
+          console.log(startOfDay(allValues.createdAt));
+          console.log(endOfDay(allValues.createdAt));
           mostRecentActivity = await collection
             .find({
               createdAt: {
