@@ -1,5 +1,5 @@
 // Import Dependencies
-import { addDays, parseISO, format } from "date-fns";
+import { addDays, parseISO, format, subDays, subHours } from "date-fns";
 import connectToDatabase from "./db";
 import { FrontPage, ProgressGraph } from "./types";
 import startOfDay from "date-fns/startOfDay";
@@ -90,16 +90,16 @@ export async function getFrontPage(): Promise<any> {
 
       const countWorkouts = await collection.countDocuments({
         createdAt: {
-          $gte: new Date("2021-04-01T00:00:00.000Z"),
-          $lt: new Date("2021-05-01T00:00:00.000Z"),
+          $gte: new Date("2021-04-01T04:00:00.000Z"),
+          $lt: new Date("2021-05-01T04:00:00.000Z"),
         },
       });
 
       const lastWorkoutDate = await collection
         .find({
           createdAt: {
-            $gte: new Date("2021-04-01T00:00:00.000Z"),
-            $lt: new Date("2021-05-01T00:00:00.000Z"),
+            $gte: new Date("2021-04-01T04:00:00.000Z"),
+            $lt: new Date("2021-05-01T04:00:00.000Z"),
           },
         })
         .sort({
@@ -110,14 +110,16 @@ export async function getFrontPage(): Promise<any> {
       if (lastWorkoutDate) {
         for await (const allValues of lastWorkoutDate) {
           console.log(allValues.createdAt);
+          const realDate = subHours(allValues.createdAt, 4);
+          console.log(realDate);
 
-          console.log(startOfDay(allValues.createdAt));
-          console.log(endOfDay(allValues.createdAt));
+          console.log(startOfDay(realDate));
+          console.log(endOfDay(realDate));
           mostRecentActivity = await collection
             .find({
               createdAt: {
-                $gte: startOfDay(allValues.createdAt),
-                $lte: endOfDay(allValues.createdAt),
+                $gte: startOfDay(realDate),
+                $lte: endOfDay(realDate),
               },
             })
             .sort({
