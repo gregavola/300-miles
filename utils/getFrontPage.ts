@@ -6,6 +6,7 @@ import startOfDay from "date-fns/startOfDay";
 import endOfDay from "date-fns/endOfDay";
 import getDaysInMonth from "date-fns/getDaysInMonth";
 import startOfMonth from "date-fns/startOfMonth";
+import { utcToZonedTime } from "date-fns-tz";
 
 export async function getFrontPage(): Promise<any> {
   return new Promise<any>(async (resolve, reject) => {
@@ -110,16 +111,19 @@ export async function getFrontPage(): Promise<any> {
       if (lastWorkoutDate) {
         for await (const allValues of lastWorkoutDate) {
           console.log(allValues.createdAt);
-          const realDate = subHours(allValues.createdAt, 4);
-          console.log(realDate);
 
-          console.log(startOfDay(realDate));
-          console.log(endOfDay(realDate));
+          const zonedTime = utcToZonedTime(
+            allValues.createdAt,
+            "America/New_York"
+          );
+
+          console.log(startOfDay(zonedTime));
+          console.log(endOfDay(zonedTime));
           mostRecentActivity = await collection
             .find({
               createdAt: {
-                $gte: startOfDay(realDate),
-                $lte: endOfDay(realDate),
+                $gte: startOfDay(zonedTime),
+                $lte: endOfDay(zonedTime),
               },
             })
             .sort({
