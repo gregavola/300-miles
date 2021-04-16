@@ -6,7 +6,7 @@ import startOfDay from "date-fns/startOfDay";
 import endOfDay from "date-fns/endOfDay";
 import getDaysInMonth from "date-fns/getDaysInMonth";
 import startOfMonth from "date-fns/startOfMonth";
-import { utcToZonedTime } from "date-fns-tz";
+import { zonedTimeToUtc } from "date-fns-tz";
 
 export async function getFrontPage(): Promise<any> {
   return new Promise<any>(async (resolve, reject) => {
@@ -110,20 +110,19 @@ export async function getFrontPage(): Promise<any> {
 
       if (lastWorkoutDate) {
         for await (const allValues of lastWorkoutDate) {
-          console.log(allValues.createdAt);
+          const zonedTimeStart = format(allValues.createdAt, "yyyy-MM-dd");
 
-          const zonedTime = utcToZonedTime(
-            allValues.createdAt,
-            "America/New_York"
-          );
+          const nextDay = addDays(allValues.createdAt, 1);
+          const zonedTimeEnd = format(nextDay, "yyyy-MM-dd");
 
-          console.log(startOfDay(zonedTime));
-          console.log(endOfDay(zonedTime));
+          const startTime = `${zonedTimeStart}T04:00:00.000Z`;
+          const endTime = `${zonedTimeEnd}T04:00:00.000Z`;
+
           mostRecentActivity = await collection
             .find({
               createdAt: {
-                $gte: startOfDay(zonedTime),
-                $lte: endOfDay(zonedTime),
+                $gte: new Date(startTime),
+                $lte: new Date(endTime),
               },
             })
             .sort({
@@ -195,11 +194,19 @@ export async function getFrontPage(): Promise<any> {
           items: [],
         };
 
+        const zonedTimeStart = format(parseISO(date), "yyyy-MM-dd");
+
+        const nextDay = addDays(parseISO(date), 1);
+        const zonedTimeEnd = format(nextDay, "yyyy-MM-dd");
+
+        const startTime = `${zonedTimeStart}T04:00:00.000Z`;
+        const endTime = `${zonedTimeEnd}T04:00:00.000Z`;
+
         const results = await collection
           .find({
             createdAt: {
-              $gte: parseISO(date),
-              $lt: addDays(parseISO(date), 1),
+              $gte: new Date(startTime),
+              $lte: new Date(endTime),
             },
           })
           .sort({ createdAt: -1 });
