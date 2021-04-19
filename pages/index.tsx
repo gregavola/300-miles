@@ -12,7 +12,7 @@ import {
 import CalendarComponent from "../components/Calendar";
 import ProgressBarComponent from "../components/ProgressBar";
 import { Modal } from "react-bootstrap";
-import { Facebook, Activity, Heart } from "react-feather";
+import { Facebook, Activity, Heart, Award } from "react-feather";
 import { FrontPage, Workout, WorkoutEvent } from "../utils/types";
 import { getFrontPage } from "../utils/getFrontPage";
 import { format } from "date-fns";
@@ -175,8 +175,10 @@ export default function Home({ frontPageData }: DefaultProps) {
                 🚴‍♂️ Racing for a Cure
               </div>
               <h2>
-                Join me as I race to 300 miles for the month of April on the
-                Peloton, to raise donations for the American Cancer Society.
+                Join me as I race to{" "}
+                <span style={{ textDecoration: "line-through" }}>300</span> 400
+                miles for the month of April on the Peloton, to raise donations
+                for the American Cancer Society.
               </h2>
             </div>
             <div className="row pb-5 pt-5 justify-content-center">
@@ -216,6 +218,19 @@ export default function Home({ frontPageData }: DefaultProps) {
                 </a>
                 !
               </h5>
+              <div className="alert alert-warning mt-3" role="alert">
+                <div className="d-flex align-items-center justify-content-center font-weight-bold mb-2">
+                  <Award className="mb-1" size={32} />
+                  <h4 className="mb-0" style={{ textTransform: "uppercase" }}>
+                    Update
+                  </h4>
+                </div>
+                <div style={{ fontSize: 20 }}>
+                  We hit our goal of $1,000 and 300 miles! Thank you to everyone
+                  for their support! To keep the montemium going, we're adding a
+                  stretch goal of $1,250 and 400 miles!
+                </div>
+              </div>
               <p>
                 Cancer is among the leading causes of death worldwide. In 2018,
                 there were 18.1 million new cases and 9.5 million cancer-related
@@ -246,9 +261,9 @@ export default function Home({ frontPageData }: DefaultProps) {
             <div className="mb-2 row">
               <div className="col-md-6 justify-content-center text-center">
                 <h1>${fontPage.dontations.total}</h1>
-                <p className="text-muted">Amount Raised ($1000 Goal)</p>
+                <p className="text-muted">Amount Raised ($1250 Goal)</p>
                 <ProgressBarComponent
-                  total={1000}
+                  total={1250}
                   current={fontPage.dontations.total}
                   size={"50px"}
                 />
@@ -278,9 +293,9 @@ export default function Home({ frontPageData }: DefaultProps) {
               </div>
               <div className="col-md-6 justify-content-center text-center">
                 <h1>{fontPage.metrics.totalMiles.toFixed(2)}</h1>
-                <p className="text-muted">Total Miles (300mi Goal)</p>
+                <p className="text-muted">Total Miles (400mi Goal)</p>
                 <ProgressBarComponent
-                  total={300}
+                  total={400}
                   current={fontPage.metrics.totalMiles}
                   size={"50px"}
                 />
@@ -382,7 +397,7 @@ export default function Home({ frontPageData }: DefaultProps) {
                   <div className="mb-2">
                     <h5>Expected Total</h5>
                     <div className="workout d-flex align-items-center justify-content-center">
-                      <h3>{fontPage.tracking.expectedTotal}</h3>
+                      <h3>{fontPage.tracking.expectedTotal.toFixed(2)}</h3>
                       <span className="text-muted ml-1">mi</span>
                     </div>
                   </div>

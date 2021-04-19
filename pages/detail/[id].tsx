@@ -65,7 +65,7 @@ export default function Detail({ workout, totalMiles }: DefaultProps) {
         </div>
         <div className="container mb-4 mt-4">
           <h3 className="mb-0">
-            Progress <small>({totalMiles.toFixed(2)}m / 300m)</small>
+            Progress <small>({totalMiles.toFixed(2)}m / 400m)</small>
           </h3>
 
           <div className="mt-3">
@@ -75,7 +75,7 @@ export default function Detail({ workout, totalMiles }: DefaultProps) {
               labelAlignment={"outside"}
               borderRadius={"5px"}
               labelColor={"#fff"}
-              completed={parseFloat(((totalMiles / 300) * 100).toFixed(2))}
+              completed={parseFloat(((totalMiles / 400) * 100).toFixed(2))}
             />
           </div>
         </div>

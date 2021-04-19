@@ -21,13 +21,13 @@ export async function getFrontPage(): Promise<any> {
 
       const fullDates = [];
 
-      const totalMilesFull = 300 / daysinMonth;
+      const totalMilesFull = 400 / daysinMonth;
 
       for (let day = 0; day < daysinMonth; day++) {
         fullDates.push({
           date: format(addDays(startDateOfOMonth, day), "yyyy-MM-dd"),
           dateFormat: format(addDays(startDateOfOMonth, day), "MM/dd"),
-          count: totalMilesFull * (day + 1),
+          count: Math.round(totalMilesFull * (day + 1)),
         });
       }
 
