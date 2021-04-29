@@ -176,7 +176,8 @@ export default function Home({ frontPageData }: DefaultProps) {
               </div>
               <h2>
                 Join me as I race to{" "}
-                <span style={{ textDecoration: "line-through" }}>300</span> 400
+                <span style={{ textDecoration: "line-through" }}>300</span>{" "}
+                <span style={{ textDecoration: "line-through" }}>400</span> 475
                 miles for the month of April on the Peloton, to raise donations
                 for the American Cancer Society.
               </h2>
@@ -228,7 +229,7 @@ export default function Home({ frontPageData }: DefaultProps) {
                 <div style={{ fontSize: 20 }}>
                   We hit our goal of $1,000 and 300 miles! Thank you to everyone
                   for their support! To keep the montemium going, we're adding a
-                  stretch goal of $1,250 and 400 miles!
+                  stretch goal of $1,250 and 475 miles!
                 </div>
               </div>
               <p>
@@ -295,7 +296,7 @@ export default function Home({ frontPageData }: DefaultProps) {
                 <h1>{fontPage.metrics.totalMiles.toFixed(2)}</h1>
                 <p className="text-muted">Total Miles (400mi Goal)</p>
                 <ProgressBarComponent
-                  total={400}
+                  total={475}
                   current={fontPage.metrics.totalMiles}
                   size={"50px"}
                 />
